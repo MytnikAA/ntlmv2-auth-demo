@@ -25,19 +25,27 @@ public class NtmlAuthentificator {
 
     private final Map<String, Object> cache = new HashMap<>();
 
-    @Value("ntlm.domain.name")
+    @Value("${ntlm.domain.name}")
     private String controllerDomain;
 
-    @Value("ntlm.domain.controller.address")
+    @Value("${ntlm.domain.controller.address}")
     private String domainControllerAddress;
 
-    @Value("ntlm.domain.controller.hostname")
+    @Value("${ntlm.domain.controller.hostname}")
     private String domainControllerHostName;
 
-    @Value("ntlm.service.account")
+    /**
+     * Это должен быть аккаунт копьютера (computer account) с $ на конце
+     * Пример myname$@COMP COMP - домен
+     * В АД надо создать учётку в разделе MYDOMAIN -> Computer
+     * Затем установить ей пароль, запустив от админа VisualBasic скрипт:
+     * cscript SetComputerPassword.vbs myname$@COMP mypassword
+     * Скрипт взят из либы jespa и лежит в корне репы
+     */
+    @Value("${ntlm.service.account}")
     private String serviceAccount;
 
-    @Value("ntlm.service.password")
+    @Value("${ntlm.service.password}")
     private String servicePassword;
 
     public NtmlAuthentificator() {
