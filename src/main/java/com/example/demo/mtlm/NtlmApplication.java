@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MtlmApplication {
+public class NtlmApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MtlmApplication.class, args);
+        SpringApplication.run(NtlmApplication.class, args);
     }
 }

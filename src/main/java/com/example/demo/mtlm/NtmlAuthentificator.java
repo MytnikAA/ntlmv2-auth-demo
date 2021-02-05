@@ -83,21 +83,28 @@ public class NtmlAuthentificator {
                 if (serverChallenge == null) {
                     return new NtlmState(null, null, NtlmState.NtlmServerStage.REQUEST_CLIENT_CHALLENGE);
                 } else {
-                    NtlmUserAccount ntlmUserAccount = null;
                     try {
                         log.debug("Try authenticating user now...");
-                        ntlmUserAccount = ntlmManager.authenticate(ntlmBinMessage, serverChallenge);
+                        NtlmUserAccount ntlmUserAccount = ntlmManager.authenticate(ntlmBinMessage, serverChallenge);
                         log.info("Authentication was successful. Creating session.");
+                        ntlmUserAccount.getUserName();
+                        return new NtlmState(null, new NtlmUserAccount(ntlmUserAccount.getUserName()), NtlmState.NtlmServerStage.AUTH_OK);
+                    } catch (NtlmLogonException e) {
+                        String message = e.getMessage();
+                        switch (message) {
+                            case "Unable to authenticate user: The specified network password is not correct.":
+                            case "Unable to authenticate user: The specified user does not exist.":
+                                return new NtlmState(null, null, NtlmState.NtlmServerStage.AUTH_FAIL);
+                            default:
+                                return new NtlmState(null, null, NtlmState.NtlmServerStage.ERROR);
+                        }
                     } catch (Exception e) {
                         log.error("NTLM authentication failed: ", e);
-                        return new NtlmState(null, null, NtlmState.NtlmServerStage.AUTH_FAIL);
+                        return new NtlmState(null, null, NtlmState.NtlmServerStage.ERROR);
                     } finally {
                         synchronized (cache) {
                             cache.remove(clientSessionId);
                         }
-                    }
-                    if (ntlmUserAccount == null) {
-                        return new NtlmState(null, null, NtlmState.NtlmServerStage.AUTH_FAIL);
                     }
                 }
             } else {
@@ -106,7 +113,6 @@ public class NtmlAuthentificator {
         } else {
             return new NtlmState(null, null, NtlmState.NtlmServerStage.NOT_NTLM);
         }
-        return new NtlmState(null, null, NtlmState.NtlmServerStage.AUTH_FAIL);
     }
 
     private void sendWwwAuthenticateResponse(HttpServletResponse response)
@@ -136,7 +142,8 @@ public class NtmlAuthentificator {
             SEND_SERVER_CHALLENGE,
             AUTH_OK,
             AUTH_FAIL,
-            NOT_NTLM
+            NOT_NTLM,
+            ERROR
         }
 
         public byte[] getServerChallenge() {

@@ -40,11 +40,13 @@
             <version>1.3.17</version>
         </dependency>
 
-        <!--<dependency>
-        https://sourceforge.net/
-            <groupId></groupId>
+        <!-- https://mvnrepository.com/artifact/ch.poweredge.ntlmv2-auth/ntlmv2-lib -->
+        <dependency>
+            <groupId>ch.poweredge.ntlmv2-auth</groupId>
             <artifactId>ntlmv2-lib</artifactId>
-        </dependency>-->
+            <version>1.0.5</version>
+        </dependency>
+
 
     </dependencies>
 
