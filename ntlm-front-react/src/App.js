@@ -9,7 +9,7 @@ class App extends React.Component {
         this.state = {
             login: "",
             password: "",
-            domain: "avt"
+            domain: "MYDOMAIN"
         }
     }
 
