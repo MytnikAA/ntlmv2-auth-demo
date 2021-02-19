@@ -1,5 +1,6 @@
-# ntlmv2-auth-demo
+# Demo NTLM authentication.
 
+## Setup
 
 1. Create `computer account` in AD controller:
 Open MMC console, in MYDOMAIN -> Computers: New -> Computer: my_comp_account (without $)
@@ -22,3 +23,8 @@ ntlm.service.password=my_comp_account_password
 
 Links:
 https://issues.liferay.com/browse/LPS-11391
+
+## Runtime
+
+* frontend - ntlm-front-react, see ntlm-front-react/README.md
+* backend - see NtmlAuthentificator

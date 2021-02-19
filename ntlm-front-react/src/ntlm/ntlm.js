@@ -18,6 +18,8 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+// from https://github.com/erlandranvinge/ntlm.js/blob/54a7d1a0ce4a87a4ee00540fe39924d0044f6612/ntlm.js
+
 class Msg {
 
     constructor(data) {

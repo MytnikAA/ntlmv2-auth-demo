@@ -1,6 +1,6 @@
 import './App.css';
 import * as React from "react";
-import * as Ntlm from './ntlm';
+import {doAllActionsForNTLM} from "./ntlm/login_algorithm";
 
 class App extends React.Component {
 
@@ -50,37 +50,7 @@ class App extends React.Component {
         const login = this.state.login;
         const password = this.state.password;
         const hostname = "client-pc";
-        console.log(login + " " + password);
-        let ntlmMessage = Ntlm.createMessage1(hostname, domain);
-        console.log('ntlm message: ', ntlmMessage);
-        window.fetch('/api/login', {
-            credentials: 'same-origin',
-            method: 'POST',
-            body: 'NTLM ' + ntlmMessage.toBase64()
-        })
-            .then(response => {
-                console.log('response: ', response);
-                return response.text();
-            })
-            .then(serverChallenge => {
-                console.log('serverChallenge: ', serverChallenge);
-                const challenge = Ntlm.getChallenge(serverChallenge);
-                let type3Message = Ntlm.createMessage3(challenge, domain, login, password, hostname);
-                console.log('type3Message: ', type3Message.toBase64())
-                return window.fetch('/api/login', {
-                    credentials: 'same-origin',
-                    method: 'POST',
-                    body: 'NTLM ' + type3Message.toBase64()
-                })
-            })
-            .then(response => {
-                console.log('response: ', response);
-                return response.text();
-            })
-            .then(result => {
-                console.log('response: ', result);
-            })
-            .catch(error => console.log('error: ', error));
+        doAllActionsForNTLM(hostname, domain, login, password);
     }
 }
 

@@ -1,17 +1,15 @@
 package com.example.demo.mtlm;
 
-import org.ntlmv2.liferay.NtlmUserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Base64;
 
 @RestController
 @RequestMapping("/api")
-public class Res {
+public class Rest {
 
     @Autowired
     private NtmlAuthentificator ntmlAuthentificator;
